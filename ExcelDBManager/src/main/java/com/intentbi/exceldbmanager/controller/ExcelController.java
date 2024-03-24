@@ -34,7 +34,7 @@ public class ExcelController {
      * @param newData The updated data.
      * @return ResponseEntity indicating the result of the update operation.
      */
-    @PutMapping("/data/{id}")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<String> updateData(@PathVariable Long id, @RequestBody ExcelFileProcessor newData) {
         return new ResponseEntity<>(excelServiceInterface.updateData(id,newData), HttpStatus.OK);
     }
@@ -44,7 +44,7 @@ public class ExcelController {
      * @param id The ID of the data to delete.
      * @return ResponseEntity indicating the result of the delete operation.
      */
-    @DeleteMapping("/data/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteData(@PathVariable Long id) {
         return new ResponseEntity<>(excelServiceInterface.deleteData(id), HttpStatus.ACCEPTED);
     }
