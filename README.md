@@ -9,6 +9,49 @@ ExcelDBManager is a robust Spring Boot application designed to efficiently manag
 - **Delete Data:** Delete unwanted data entries effortlessly.
 - **Retrieve Data:** Retrieve data by page number for convenient access.
 
+### Folder Structure
+```
+ExcelDBManager
+├── src
+│   ├── main
+│   │   └── java
+│   │       └── com
+│   │           └── intentbi
+│   │               └── exceldbmanager
+│   │                   ├── ExcelDbManagerApplication.java
+│   │                   ├── controller
+│   │                   │   └── ExcelController.java
+│   │                   ├── entity
+│   │                   │   └── ExcelFileProcessor.java
+│   │                   ├── exception
+│   │                   │   ├── ErrorDetail.java
+│   │                   │   ├── GlobalExceptionHandler.java
+│   │                   │   └── IntentBiException.java
+│   │                   ├── repository
+│   │                   │   └── ExcelFileProcessorRepository.java
+│   │                   ├── security
+│   │                   │   └── BasicAuthConfig.java
+│   │                   └── services
+│   │                       ├── ExcelFileServices.java
+│   │                       └── ExcelServiceInterface.java
+│   └── resources
+│       ├── application.properties
+│       ├── templates
+│       └── test.xlsx
+└── excel-db-manager-frontend
+    └── src
+        ├── App.js
+        ├── components
+        │   ├── DeleteButton.jsx
+        │   ├── EditButton.jsx
+        │   ├── Pagination.css
+        │   ├── TBody.jsx
+        │   └── Upload.jsx
+        ├── index.css
+        ├── index.js
+        └── logo.svg
+```
+
 ### Usage Guide
 
 #### Getting Started
