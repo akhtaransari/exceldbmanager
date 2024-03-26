@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -167,18 +168,29 @@ public class ExcelFileServices implements ExcelServiceInterface {
     }
 
     /**
-     * Retrieves data from the Excel file by page number.
-     * @param page The page number.
-     * @return A Page object containing data for the specified page number.
+     * Retrieves data from the Excel file by page number with optional sorting.
+     *
+     * @param page      The page number to retrieve.
+     * @param type      The field type to sort by. Defaults to "name" if not provided.
+     * @param direction The sort direction. Defaults to "asc" (ascending) if not provided.
+     * @return A Page object containing data for the specified page number, sorted as per the provided criteria.
+     * @throws IntentBiException if no data is available.
      */
     @Override
-    public Page<ExcelFileProcessor> getDataByPageNumber(int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+    public Page<ExcelFileProcessor> getDataByPageNumber(int page, String type, String direction) {
+        // Construct pageable object with sorting parameters
+        Sort sort = Sort.by(Sort.Direction.fromString(direction), type);
+        Pageable pageable = PageRequest.of(page, 10, sort);
+
+        // Retrieve data page from repository
         Page<ExcelFileProcessor> dataPage = excelFileProcessorRepository.findAll(pageable);
 
+        // Check if data page is empty
         if (dataPage.isEmpty()) {
             throw new IntentBiException("No data available.");
         }
+
         return dataPage;
     }
+
 }

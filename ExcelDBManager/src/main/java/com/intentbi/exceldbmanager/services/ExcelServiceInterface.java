@@ -8,5 +8,5 @@ public interface ExcelServiceInterface {
     String uploadExcelFile(MultipartFile file);
     String updateData(Long id, ExcelFileProcessor newData);
     String deleteData(Long id);
-    Page<ExcelFileProcessor> getDataByPageNumber(int page);
+    Page<ExcelFileProcessor> getDataByPageNumber(int page , String type , String direction);
 }

@@ -25,8 +25,23 @@ public class ExcelController {
      */
     @PostMapping("/upload")
     public ResponseEntity<String> uploadExcelFile(@RequestParam("file") MultipartFile file) {
+        // Check if the file exists
+        if (file.isEmpty()) {
+            // Return a bad request response if no file is provided
+            return new ResponseEntity<>("Please select a file to upload", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the file is an Excel file by examining its content type
+        String contentType = file.getContentType();
+        if (contentType == null || (!contentType.equals("application/vnd.ms-excel") && !contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))) {
+            // Return a bad request response if the file is not an Excel file
+            return new ResponseEntity<>("Only Excel files are allowed", HttpStatus.BAD_REQUEST);
+        }
+
+        // Proceed with uploading the Excel file
         return new ResponseEntity<>(excelServiceInterface.uploadExcelFile(file), HttpStatus.ACCEPTED);
     }
+
 
     /**
      * Handles updating data based on the provided ID.
@@ -50,12 +65,20 @@ public class ExcelController {
     }
 
     /**
-     * Retrieves data by page number.
-     * @param page The page number.
+     * Retrieves data by page number, with optional sorting parameters.
+     *
+     * @param page      The page number to retrieve.
+     * @param type      The field type to sort by. Defaults to "name" if not provided.
+     * @param direction The sort direction. Defaults to "asc" (ascending) if not provided.
      * @return ResponseEntity containing the data on the specified page.
      */
-    @GetMapping("/data/{page}")
-    public ResponseEntity<Page<ExcelFileProcessor>> getDataByPage(@RequestParam(defaultValue = "0") int page) {
-        return new ResponseEntity<>(excelServiceInterface.getDataByPageNumber(page), HttpStatus.ACCEPTED);
+    @GetMapping("/data/page?page={page}&type={type}&direction={direction}")
+    public ResponseEntity<Page<ExcelFileProcessor>> getDataByPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "name") String type,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        return new ResponseEntity<>(excelServiceInterface.getDataByPageNumber(page, type, direction), HttpStatus.ACCEPTED);
     }
+
 }
